@@ -1,4 +1,4 @@
-package allegro.pageObjects.components;
+package allegro.pageObjects.components.menus;
 
 import allegro.pageObjects.AbstractPageObject;
 import org.openqa.selenium.WebElement;
@@ -9,8 +9,8 @@ public class ElectronicsMenu extends AbstractPageObject{
     @FindBy(linkText = "Komputery")
     private WebElement computers;
 
-    public ComputersSubCategoryMenu selectComputers(){
+    public ComputersMenu selectComputers(){
         computers.click();
-        return new ComputersSubCategoryMenu();
+        return new ComputersMenu();
     }
 }

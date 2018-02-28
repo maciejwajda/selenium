@@ -1,17 +1,22 @@
 package allegro.search;
 
+import allegro.pageObjects.pages.ExternalAndInternalDisksPage;
 import allegro.pageObjects.pages.MainPage;
 import config.Browser;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import utils.PageScroller;
 
 import static config.Browser.driver;
+import static utils.PageScroller.scroleToPageTop;
 
 
 public class SearchProductTest {
@@ -24,7 +29,6 @@ public class SearchProductTest {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setCapability("webdriver.load.strategy", PageLoadStrategy.EAGER);
         WebDriver webdriver = new ChromeDriver(chromeOptions);
-
         webdriver.manage().window().maximize();
         new Browser(webdriver);
     }
@@ -36,27 +40,22 @@ public class SearchProductTest {
 
     @Test
     public void search() {
-        mainPage.openCategoryMenu().
+        ExternalAndInternalDisksPage disksPage = goToDisksPage();
+        setDiskSpaceFilter(disksPage);
+        disksPage.productSorter.sortByPriceDesc();
+    }
+
+    private void setDiskSpaceFilter(ExternalAndInternalDisksPage disksPage) {
+        disksPage.diskSpaceFilter.applyFilter(500, 1000);
+        scroleToPageTop();
+    }
+
+    private ExternalAndInternalDisksPage goToDisksPage() {
+        return mainPage.categoryMenu.openCategoryMenu().
                 selectElectronicsCategory().
                 selectComputers().
-                selectDiscksAndMemories();
-//        driver.findElement(
-//                By.linkText("Kategorie")).
-//                click();
-//        driver.findElement(
-//                By.xpath("//a[@data-analytics-click-value='Elektronika']")).
-//                click();
-//        driver.findElement(By.linkText("Komputery")).click();
-//        driver.findElement(By.linkText("Dyski i pamięci przenośne")).click();
-//        driver.findElement(By.linkText("Dyski zewnętrzne i przenośne")).click();
-//        driver.findElement(By.xpath("//fieldset[descendant::span[text()='Pojemność dysku (GB)']]//input[@id='od']")).sendKeys("500");
-//        driver.findElement(By.xpath("//fieldset[descendant::span[text()='Pojemność dysku (GB)']]//input[@id='do']")).sendKeys("1000");
-//        driver.findElement(By.xpath("//fieldset[descendant::span[text()='Pojemność dysku (GB)']]//input[@id='do']")).submit();
-//        JavascriptExecutor js = (JavascriptExecutor) driver;
-//        js.executeScript("window.scrollTo(0, 0)");
-//        driver.findElement(By.xpath("//*[@id='opbox-listing-sort']/div/button")).click();
-//        driver.findElement(By.xpath("//*[@id='opbox-listing-sort']//li[descendant::span[text()='cena']]//a[text()='od najwyższej']")).click();
-
+                selectDisksAndMemories().
+                selectExternalAndInternalDiscks();
     }
 
     @AfterClass

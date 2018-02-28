@@ -1,7 +1,6 @@
-package allegro.pageObjects.components;
+package allegro.pageObjects.components.menus;
 
 import allegro.pageObjects.AbstractPageObject;
-import allegro.pageObjects.pages.ElectronicsPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -17,9 +16,9 @@ public class CategoryMenu extends AbstractPageObject{
         return this;
     }
 
-    public ElectronicsPage selectElectronicsCategory(){
+    public ElectronicsMenu selectElectronicsCategory(){
         electronics.click();
-        return new ElectronicsPage();
+        return new ElectronicsMenu();
     }
 
 }
