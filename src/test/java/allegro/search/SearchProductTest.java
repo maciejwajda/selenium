@@ -1,5 +1,8 @@
 package allegro.search;
 
+import allegro.pageObjects.components.Product;
+import allegro.pageObjects.components.ProductItemList;
+import allegro.pageObjects.components.sorters.ProductSorter;
 import allegro.pageObjects.pages.ExternalAndInternalDisksPage;
 import allegro.pageObjects.pages.MainPage;
 import config.Browser;
@@ -15,6 +18,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import utils.PageScroller;
 
+import java.util.List;
+
 import static config.Browser.driver;
 import static utils.PageScroller.scroleToPageTop;
 
@@ -27,7 +32,7 @@ public class SearchProductTest {
     public static void setupWebdriver(){
         System.setProperty("webdriver.chrome.driver", "build/webdrivers/windows/googlechrome/64bit/chromedriver.exe");
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.setCapability("webdriver.load.strategy", PageLoadStrategy.EAGER);
+//        chromeOptions.setCapability("webdriver.load.strategy", PageLoadStrategy.EAGER);
         WebDriver webdriver = new ChromeDriver(chromeOptions);
         webdriver.manage().window().maximize();
         new Browser(webdriver);
@@ -43,6 +48,8 @@ public class SearchProductTest {
         ExternalAndInternalDisksPage disksPage = goToDisksPage();
         setDiskSpaceFilter(disksPage);
         disksPage.productSorter.sortByPriceDesc();
+        List<Product> products = new ProductItemList().findAllProducts();
+        System.out.println(products);
     }
 
     private void setDiskSpaceFilter(ExternalAndInternalDisksPage disksPage) {
@@ -58,9 +65,9 @@ public class SearchProductTest {
                 selectExternalAndInternalDiscks();
     }
 
-    @AfterClass
-    public static void closeBrowser(){
-        driver.close();
-        driver.quit();
-    }
+//    @AfterClass
+//    public static void closeBrowser(){
+//        driver.close();
+//        driver.quit();
+//    }
 }
