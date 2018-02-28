@@ -3,11 +3,15 @@ package allegro.pageObjects.components;
 import allegro.pageObjects.AbstractPageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.PageLoader;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static config.Browser.driver;
 
 public class ProductItemList extends AbstractPageObject{
 
@@ -15,15 +19,8 @@ public class ProductItemList extends AbstractPageObject{
     private WebElement list;
 
     public List<Product> findAllProducts(){
-        List<WebElement> productsElements = list.findElements(By.tagName("article"));
-        System.out.println("START");
-        for(WebElement e : productsElements){
-            String name = e.findElement(By.xpath("//h2/a")).getText();
-            String price = e.findElement(By.xpath("//span")).getText();
-            System.out.println("Name "+ name + "Price " + price);
-        }
-//        productsElements.stream().forEach(e -> System.out.println(e.getText()));
-        System.out.println("END");
+//        PageLoader.waitForLoad();
+        List<WebElement> productsElements = list.findElements(By.xpath(".//article"));
         return productsElements.stream().map(Product::getFromWebElement).collect(Collectors.toList());
     }
 }

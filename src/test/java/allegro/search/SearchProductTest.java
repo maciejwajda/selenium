@@ -2,26 +2,24 @@ package allegro.search;
 
 import allegro.pageObjects.components.Product;
 import allegro.pageObjects.components.ProductItemList;
-import allegro.pageObjects.components.sorters.ProductSorter;
 import allegro.pageObjects.pages.ExternalAndInternalDisksPage;
 import allegro.pageObjects.pages.MainPage;
 import config.Browser;
+import org.hamcrest.CoreMatchers;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import utils.PageScroller;
 
 import java.util.List;
 
 import static config.Browser.driver;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static utils.PageScroller.scroleToPageTop;
+import static org.hamcrest.Matchers.*;
 
 
 public class SearchProductTest {
@@ -49,7 +47,24 @@ public class SearchProductTest {
         setDiskSpaceFilter(disksPage);
         disksPage.productSorter.sortByPriceDesc();
         List<Product> products = new ProductItemList().findAllProducts();
-        System.out.println(products);
+        assertThat("Products not sorted", Product.DESC.isOrdered(products));
+        assertThat("Size match", products, everyItem(
+                hasProperty("size",
+                        allOf(greaterThanOrEqualTo(500), lessThanOrEqualTo(1000)))
+        ));
+    }
+
+    @Test
+    public void search2() {
+        ExternalAndInternalDisksPage disksPage = goToDisksPage();
+        setDiskSpaceFilter(disksPage);
+        disksPage.productSorter.sortByPriceDesc();
+        List<Product> products = new ProductItemList().findAllProducts();
+        assertThat("Products not sorted", Product.DESC.isOrdered(products));
+        assertThat("Size match", products, everyItem(
+                hasProperty("size",
+                        allOf(greaterThanOrEqualTo(500), lessThanOrEqualTo(1000)))
+        ));
     }
 
     private void setDiskSpaceFilter(ExternalAndInternalDisksPage disksPage) {
@@ -65,9 +80,9 @@ public class SearchProductTest {
                 selectExternalAndInternalDiscks();
     }
 
-//    @AfterClass
-//    public static void closeBrowser(){
-//        driver.close();
-//        driver.quit();
-//    }
+    @AfterClass
+    public static void closeBrowser(){
+        driver.close();
+        driver.quit();
+    }
 }

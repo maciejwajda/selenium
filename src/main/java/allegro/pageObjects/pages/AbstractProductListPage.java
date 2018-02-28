@@ -7,6 +7,7 @@ public abstract class AbstractProductListPage extends AbstractPage{
     public final ProductSorter productSorter;
 
     public AbstractProductListPage() {
+        super();
         this.productSorter = new ProductSorter();
     }
 }

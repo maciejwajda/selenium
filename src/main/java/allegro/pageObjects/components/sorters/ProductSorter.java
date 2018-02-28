@@ -1,8 +1,17 @@
 package allegro.pageObjects.components.sorters;
 
 import allegro.pageObjects.AbstractPageObject;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.PageLoader;
+
+import static config.Browser.driver;
+
 
 public class ProductSorter extends AbstractPageObject{
 
@@ -14,5 +23,7 @@ public class ProductSorter extends AbstractPageObject{
     public void sortByPriceDesc(){
         sorterOpen.click();
         fromTopPrice.click();
+        PageLoader.waitForLoad(sorterOpen);
     }
+
 }
