@@ -1,14 +1,21 @@
 package allegro.pageObjects.pages;
 
-import utils.PageLoader;
+import allegro.pageObjects.AbstractPageObject;
+import allegro.pageObjects.components.menus.MainCategoryMenu;
 
 import static config.Browser.driver;
 
-public class MainPage extends AbstractPage{
+public class MainPage extends AbstractPageObject {
 
-    public static final String URL = "https://allegro.pl/";
+    public final MainCategoryMenu categoryMenu;
+    private static final String URL = "https://allegro.pl/";
 
-    public MainPage navigate(){
+    public MainPage() {
+        super();
+        this.categoryMenu = new MainCategoryMenu();
+    }
+
+    public MainPage navigate() {
         driver.get(URL);
         return this;
     }

@@ -1,17 +1,17 @@
 package allegro.pageObjects.components.menus;
 
 import allegro.pageObjects.AbstractPageObject;
-import allegro.pageObjects.components.menus.DiscksAndMemoriesMenu;
+import allegro.pageObjects.pages.DisksAndMemoriesPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class ComputersMenu extends AbstractPageObject {
+public class ComputersMenu extends AbstractSubCategoryMenu{
 
-    @FindBy(linkText = "Dyski i pamięci przenośne")
+    @FindBy(xpath = SUB_CATEGORY_XPATH + "//*[text()='Dyski i pamięci przenośne']")
     private WebElement disksAndMemories;
 
-    public DiscksAndMemoriesMenu selectDisksAndMemories(){
+    public DisksAndMemoriesPage selectDisksAndMemories(){
         disksAndMemories.click();
-        return new DiscksAndMemoriesMenu();
+        return new DisksAndMemoriesPage();
     }
 }

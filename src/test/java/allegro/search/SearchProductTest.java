@@ -1,11 +1,10 @@
 package allegro.search;
 
-import allegro.pageObjects.components.Product;
-import allegro.pageObjects.components.ProductItemList;
+import allegro.products.Product;
 import allegro.pageObjects.pages.ExternalAndInternalDisksPage;
 import allegro.pageObjects.pages.MainPage;
 import config.Browser;
-import org.hamcrest.CoreMatchers;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -16,72 +15,72 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.List;
 
+import static allegro.products.Product.ORDERED_BY_PRICE_DESC;
+import static allegro.products.ProductParser.findAllProducts;
 import static config.Browser.driver;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static utils.PageScroller.scroleToPageTop;
-import static org.hamcrest.Matchers.*;
 
 
 public class SearchProductTest {
 
     private MainPage mainPage;
+    private ExternalAndInternalDisksPage disksPage;
+//    private List<Product> products;
+    private static final int MIN_SIZE = 500;
+    private static final int MAX_SIZE = 1000;
 
     @BeforeClass
-    public static void setupWebdriver(){
+    public static void setupWebdriver() {
         System.setProperty("webdriver.chrome.driver", "build/webdrivers/windows/googlechrome/64bit/chromedriver.exe");
         ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.setCapability("webdriver.load.strategy", PageLoadStrategy.EAGER);
         WebDriver webdriver = new ChromeDriver(chromeOptions);
         webdriver.manage().window().maximize();
         new Browser(webdriver);
     }
 
     @Before
-    public void openMainPage(){
+    public void openMainPage() {
         mainPage = new MainPage().navigate();
     }
 
     @Test
-    public void search() {
-        ExternalAndInternalDisksPage disksPage = goToDisksPage();
-        setDiskSpaceFilter(disksPage);
+    public void verifyFilteringAndPriceSorting() {
+        //GIVEN
+        goToDisksPage();
+        //WHEN
+        setDiskSpaceFilterTo(MIN_SIZE, MAX_SIZE);
         disksPage.productSorter.sortByPriceDesc();
-        List<Product> products = new ProductItemList().findAllProducts();
-        assertThat("Products not sorted", Product.DESC.isOrdered(products));
-        assertThat("Size match", products, everyItem(
-                hasProperty("size",
-                        allOf(greaterThanOrEqualTo(500), lessThanOrEqualTo(1000)))
-        ));
+        //THEM
+        checkSortingAndFiltering(findAllProducts(disksPage.productsList));
     }
 
-    @Test
-    public void search2() {
-        ExternalAndInternalDisksPage disksPage = goToDisksPage();
-        setDiskSpaceFilter(disksPage);
-        disksPage.productSorter.sortByPriceDesc();
-        List<Product> products = new ProductItemList().findAllProducts();
-        assertThat("Products not sorted", Product.DESC.isOrdered(products));
-        assertThat("Size match", products, everyItem(
-                hasProperty("size",
-                        allOf(greaterThanOrEqualTo(500), lessThanOrEqualTo(1000)))
-        ));
+    private void checkSortingAndFiltering(List<Product> products) {
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(products).as("Products not sorted").isSortedAccordingTo(ORDERED_BY_PRICE_DESC);
+        softly.assertThat(products).as("Size smaller then " + MIN_SIZE).
+                allMatch( p -> p.getSize() >= MIN_SIZE);
+        softly.assertThat(products).as("Size grater then " + MAX_SIZE).
+                allMatch( p -> p.getSize() <= MAX_SIZE);
+        softly.assertAll();
     }
 
-    private void setDiskSpaceFilter(ExternalAndInternalDisksPage disksPage) {
-        disksPage.diskSpaceFilter.applyFilter(500, 1000);
+    private void setDiskSpaceFilterTo(int from, int to) {
+        disksPage.diskSpaceFilter.applyFilter(from, to);
         scroleToPageTop();
     }
 
-    private ExternalAndInternalDisksPage goToDisksPage() {
-        return mainPage.categoryMenu.openCategoryMenu().
-                selectElectronicsCategory().
-                selectComputers().
-                selectDisksAndMemories().
-                selectExternalAndInternalDiscks();
+    private void goToDisksPage() {
+        disksPage = mainPage.categoryMenu.
+                openCategoryMenu().
+                selectElectronicsCategory().categoryMenu.
+                selectComputers().categoryMenu.
+                selectDisksAndMemories().categoryMenu.
+                selectExternalAndInternalDisks();
     }
 
     @AfterClass
-    public static void closeBrowser(){
+    public static void closeBrowser() {
         driver.close();
         driver.quit();
     }

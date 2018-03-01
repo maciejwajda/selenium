@@ -1,24 +1,25 @@
 package allegro.pageObjects.components.menus;
 
 import allegro.pageObjects.AbstractPageObject;
+import allegro.pageObjects.pages.ElectronicsPage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class CategoryMenu extends AbstractPageObject{
+public class MainCategoryMenu extends AbstractPageObject{
 
-    @FindBy(linkText = "Kategorie")
+    @FindBy(xpath = "//div[@data-dropdown-id='categories_dropdown']")
     private WebElement categoryMenuOpen;
     @FindBy(xpath = "//a[@data-analytics-click-value='Elektronika']")
     private WebElement electronics;
 
-    public CategoryMenu openCategoryMenu(){
+    public MainCategoryMenu openCategoryMenu(){
         categoryMenuOpen.click();
         return this;
     }
 
-    public ElectronicsMenu selectElectronicsCategory(){
+    public ElectronicsPage selectElectronicsCategory(){
         electronics.click();
-        return new ElectronicsMenu();
+        return new ElectronicsPage();
     }
 
 }
