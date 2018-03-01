@@ -6,7 +6,7 @@ import static config.Browser.driver;
 
 public class PageScroller {
 
-    public static void scroleToPageTop(){
+    public static void scrollToPageTop(){
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollTo(0, 0)");
     }

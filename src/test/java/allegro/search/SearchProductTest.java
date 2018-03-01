@@ -1,42 +1,34 @@
 package allegro.search;
 
-import allegro.products.Product;
 import allegro.pageObjects.pages.ExternalAndInternalDisksPage;
 import allegro.pageObjects.pages.MainPage;
+import allegro.products.Product;
 import config.Browser;
+import config.DriverFactory;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.List;
 
 import static allegro.products.Product.ORDERED_BY_PRICE_DESC;
 import static allegro.products.ProductParser.findAllProducts;
 import static config.Browser.driver;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static utils.PageScroller.scroleToPageTop;
+import static utils.PageScroller.scrollToPageTop;
 
 
 public class SearchProductTest {
 
     private MainPage mainPage;
     private ExternalAndInternalDisksPage disksPage;
-//    private List<Product> products;
     private static final int MIN_SIZE = 500;
     private static final int MAX_SIZE = 1000;
 
     @BeforeClass
-    public static void setupWebdriver() {
-        System.setProperty("webdriver.chrome.driver", "build/webdrivers/windows/googlechrome/64bit/chromedriver.exe");
-        ChromeOptions chromeOptions = new ChromeOptions();
-        WebDriver webdriver = new ChromeDriver(chromeOptions);
-        webdriver.manage().window().maximize();
-        new Browser(webdriver);
+    public static void setupWebDriver() {
+        new Browser(DriverFactory.getWebDriver(DriverFactory.CHROME));
     }
 
     @Before
@@ -67,7 +59,7 @@ public class SearchProductTest {
 
     private void setDiskSpaceFilterTo(int from, int to) {
         disksPage.diskSpaceFilter.applyFilter(from, to);
-        scroleToPageTop();
+        scrollToPageTop();
     }
 
     private void goToDisksPage() {

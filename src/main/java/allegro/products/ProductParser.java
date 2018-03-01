@@ -1,13 +1,12 @@
 package allegro.products;
 
-import allegro.pageObjects.components.ProductEntry;
+import allegro.pageObjects.components.ProductElement;
 import allegro.pageObjects.components.ProductList;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import static allegro.pageObjects.components.ProductList.*;
 
 public class ProductParser {
 
@@ -17,7 +16,7 @@ public class ProductParser {
             count--;
             try {
                 return productList.getProducts().stream().
-                        map(ProductParser::getFromWebElement).
+                        map(ProductParser::getProductFromWebElement).
                         collect(Collectors.toList());
             } catch (StaleElementReferenceException e) {
                 if (count == 0)
@@ -26,8 +25,8 @@ public class ProductParser {
         }
     }
 
-    private static Product getFromWebElement(WebElement element) {
-        ProductEntry productEntry = new ProductEntry(element);
-        return new Product(productEntry.name, productEntry.price, productEntry.size);
+    private static Product getProductFromWebElement(WebElement productElement) {
+        ProductElement product = new ProductElement(productElement);
+        return new Product(product.name, product.price, product.size);
     }
 }

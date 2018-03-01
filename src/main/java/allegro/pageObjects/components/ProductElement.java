@@ -1,20 +1,17 @@
 package allegro.pageObjects.components;
 
-import allegro.products.Product;
-import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
 import java.math.BigDecimal;
 
-public class ProductEntry {
+public class ProductElement {
 
     private WebElement element;
     public final String name;
     public final BigDecimal price;
     public final int size;
 
-    public ProductEntry(WebElement element){
+    public ProductElement(WebElement element){
         this.element = element;
         this.name = getName();
         this.size = getSize();
@@ -26,14 +23,15 @@ public class ProductEntry {
     }
 
     private BigDecimal getPrice(){
-        String price = element.findElement(By.xpath(".//span[@class='e82f23a']")).
+        String price = element.findElement(By.xpath(".//div[following-sibling::span[text()='kup teraz']]")).
                 getText().
                 replace("zł", "").replace(",", ".").trim();
         return new BigDecimal(price);
     }
 
     private int getSize(){
-        String size = element.findElement(By.xpath(".//div[@class='bec3e46']//dd[last()]")).getText();
+        String size = element.findElement(By.xpath(".//dd[preceding-sibling::dt[text()='Pojemność dysku (GB)']]")).
+                getText();
         return new Integer(size);
     }
 }
