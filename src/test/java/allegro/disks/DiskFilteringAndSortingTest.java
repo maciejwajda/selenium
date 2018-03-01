@@ -43,7 +43,7 @@ public class DiskFilteringAndSortingTest {
         //WHEN
         setDiskSizeFilterTo(MIN_SIZE, MAX_SIZE);
         disksPage.productSorter.sortByPriceDesc();
-        //THEM
+        //THEN
         checkSortingAndFiltering(findAllProducts(disksPage.productsList));
     }
 
