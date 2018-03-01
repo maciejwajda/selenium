@@ -37,7 +37,7 @@ public class DiskFilteringAndSortingTest {
     }
 
     @Test
-    public void verifyFilteringAndPriceSorting() {
+    public void verifySizeFilteringAndPriceSorting() {
         //GIVEN
         goToDisksPage();
         //WHEN
