@@ -1,14 +1,14 @@
 package allegro.pageObjects.pages;
 
-import allegro.pageObjects.components.filters.DiskSpaceFilter;
+import allegro.pageObjects.components.filters.DiskSizeFilter;
 
 public class ExternalAndInternalDisksPage extends AbstractProductsListPage {
 
-    public final DiskSpaceFilter diskSpaceFilter;
+    public final DiskSizeFilter diskSizeFilter;
 
     public ExternalAndInternalDisksPage() {
         super();
-        this.diskSpaceFilter = new DiskSpaceFilter();
+        this.diskSizeFilter = new DiskSizeFilter();
     }
 
 }

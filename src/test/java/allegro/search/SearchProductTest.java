@@ -41,7 +41,7 @@ public class SearchProductTest {
         //GIVEN
         goToDisksPage();
         //WHEN
-        setDiskSpaceFilterTo(MIN_SIZE, MAX_SIZE);
+        setDiskSizeFilterTo(MIN_SIZE, MAX_SIZE);
         disksPage.productSorter.sortByPriceDesc();
         //THEM
         checkSortingAndFiltering(findAllProducts(disksPage.productsList));
@@ -57,8 +57,8 @@ public class SearchProductTest {
         softly.assertAll();
     }
 
-    private void setDiskSpaceFilterTo(int from, int to) {
-        disksPage.diskSpaceFilter.applyFilter(from, to);
+    private void setDiskSizeFilterTo(int from, int to) {
+        disksPage.diskSizeFilter.applyFilter(from, to);
         scrollToPageTop();
     }
 

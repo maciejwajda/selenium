@@ -4,7 +4,7 @@ import allegro.pageObjects.AbstractPageObject;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class DiskSpaceFilter extends AbstractPageObject{
+public class DiskSizeFilter extends AbstractPageObject{
 
     @FindBy(xpath = "//fieldset[descendant::span[text()='Pojemność dysku (GB)']]//input[@id='od']")
     private WebElement from;
