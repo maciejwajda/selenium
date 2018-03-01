@@ -1,4 +1,4 @@
-package allegro.search;
+package allegro.disks;
 
 import allegro.pageObjects.pages.ExternalAndInternalDisksPage;
 import allegro.pageObjects.pages.MainPage;
@@ -19,7 +19,7 @@ import static config.Browser.driver;
 import static utils.PageScroller.scrollToPageTop;
 
 
-public class SearchProductTest {
+public class DiskFilteringAndSortingTest {
 
     private MainPage mainPage;
     private ExternalAndInternalDisksPage disksPage;
