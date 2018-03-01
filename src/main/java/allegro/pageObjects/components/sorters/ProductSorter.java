@@ -23,7 +23,9 @@ public class ProductSorter extends AbstractPageObject{
     public void sortByPriceDesc(){
         sorterOpen.click();
         fromTopPrice.click();
-        PageLoader.waitForLoad(sorterOpen);
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.textToBePresentInElement(sorterOpen, "cena: od najwyższej"));
+//        PageLoader.waitForLoad(sorterOpen);
     }
 
 }

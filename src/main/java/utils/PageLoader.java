@@ -13,10 +13,10 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.not;
 public class PageLoader {
 
     public static void waitForLoad(WebElement el) {
-//        ExpectedCondition<Boolean> pageLoadCondition = d -> ((JavascriptExecutor) d).
-//                executeScript("return document.readyState").equals("complete");
+        ExpectedCondition<Boolean> pageLoadCondition = d -> ((JavascriptExecutor) d).
+                executeScript("return document.readyState").equals("complete");
         WebDriverWait wait = new WebDriverWait(driver, 30);
-//        wait.until(pageLoadCondition);
-        wait.until(not(ExpectedConditions.stalenessOf(el)));
+        wait.until(pageLoadCondition);
+//        wait.until(not(ExpectedConditions.stalenessOf(el)));
     }
 }

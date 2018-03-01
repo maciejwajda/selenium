@@ -19,7 +19,7 @@ public class ProductItemList extends AbstractPageObject{
     private WebElement list;
 
     public List<Product> findAllProducts(){
-//        PageLoader.waitForLoad();
+//        PageLoader.waitForLoad(null);
         List<WebElement> productsElements = list.findElements(By.xpath(".//article"));
         return productsElements.stream().map(Product::getFromWebElement).collect(Collectors.toList());
     }

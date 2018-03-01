@@ -4,6 +4,7 @@ import com.google.common.collect.Ordering;
 import lombok.Data;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import utils.PageLoader;
 
 import java.math.BigDecimal;
 
@@ -20,6 +21,7 @@ public class Product {
     }
 
     public static Product getFromWebElement(WebElement element) {
+//        PageLoader.waitForLoad(element);
         String size = element.findElement(By.xpath(".//div[@class='bec3e46']//dd[last()]")).getText();
         String name = element.findElement(By.xpath(".//h2/a")).getText();
         String price = element.findElement(By.xpath(".//span[@class='e82f23a']")).getText();
